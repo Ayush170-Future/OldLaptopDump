@@ -1,49 +1,33 @@
-package cookoffAprl;
+package kickstartApril2021;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 
 public class q1 {
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(br.readLine());
-        while(t-- > 0) {
-            String s[] = br.readLine().split(" ");
-            int n = Integer.parseInt(s[0]);
-            int x = Integer.parseInt(s[1]);
-            String s1[] = br.readLine().split(" ");
-            HashMap<Integer, Integer> map = new HashMap<>();
-            int a[] = new int[n];
-            int cd = 0;
-            for(String r : s1) {
-                int temp = Integer.parseInt(r);
-                if(map.containsKey(temp)) {
-                    int num = map.get(temp);
-                    num++;
-                    map.put(temp, num);
+        for(int tt = 1; tt <= t; tt++) {
+            int n = Integer.parseInt(br.readLine());
+            String s = br.readLine();
+            int ans[] = new int[n];
+            int ml = 0;
+            ml = 1;
+            ans[0] = 1;
+            for(int i = 1; i < n; i++) {
+                if(s.charAt(i) > s.charAt(i-1)) {
+                    ml++;
+                    ans[i] = ml;
                 } else {
-                    cd++;
-                    map.put(temp, 1);
+                    ml = 1;
+                    ans[i] = ml;
                 }
             }
-            int y = 0;
-            for(int i : map.keySet()) {
-                int val = map.get(i);
-                if(val > 1) {
-                    y += val-1;
-                }
+            for(int val : ans) {
+                System.out.print(val +" ");
             }
-            int ans = 0;
-            if(y >= x) {
-                ans = cd;
-            } else {
-                int val = x-y;
-                ans = cd-val;
-            }
-            System.out.println(ans);
+            System.out.println();
         }
     }
 }

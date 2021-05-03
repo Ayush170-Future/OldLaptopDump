@@ -1,40 +1,73 @@
-package cookoffAprl;
-import java.lang.*;
+package kickstartApril2021;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+
 public class q2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(br.readLine());
-        while(t-- > 0) {
+        for (int tt = 1; tt <= t; tt++) {
+            int n = Integer.parseInt(br.readLine());
+            int arr[] = new int[n];
+            int dp[] = new int[n];
             String s[] = br.readLine().split(" ");
-            int n = Integer.parseInt(s[0]);
-            int q = Integer.parseInt(s[1]);
-            String[] s1 = br.readLine().split(" ");
-            int a[] = new int[n];
             for(int i = 0; i < n; i++) {
-                a[i] = Integer.parseInt(s1[i]);
+                arr[i] = Integer.parseInt(s[i]);
             }
-            StringBuffer ans = new StringBuffer();
-            int temp = 0;
-            for(int i : a) {
-                temp = temp ^ i;
-            }
-            ans.append(temp);
-            ans.append("/n");
-            for(int i = 0; i < q; i++) {
-                String s2[] = br.readLine().split(" ");
-                int ind = Integer.parseInt(s2[0]) - 1;
-                a[ind] = Integer.parseInt(s2[1]);
-                temp = 0;
-                for(int j : a) {
-                    temp = temp ^ j;
+            int len = 1;
+            int max = Integer.MIN_VALUE;
+            dp[0] = 1;
+            int diff = arr[1] - arr[0];
+            dp[1] = 2;
+            len = 2;
+            int ci = -1;
+            max = len;
+            int bvi = 1;
+            for(int i = 2; i < n; i++) {
+                int d = arr[i] - arr[bvi];
+                if(d == diff) {
+                    len++;
+                    dp[i] = len;
+                    bvi = i;
+                } else {
+                    if(ci == -1) {
+                        len++;
+                        dp[i] = len;
+                        ci = i;
+                        bvi = i-1;
+                    } else {
+                        len = dp[i-1] - dp[ci] + 1;
+                        ci = i;
+                        dp[i] = len;
+                        bvi = i-1;
+                    }
+                }
+                if(dp[i] > max) {
+                    max = dp[i];
                 }
 
+                if(i != ci) {
+                    if(i-1 != ci)
+                        diff = arr[i] - arr[i-1];
+                }
             }
-            System.out.println(ans);
+            System.out.println("Case #" +tt +": " +max);
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
